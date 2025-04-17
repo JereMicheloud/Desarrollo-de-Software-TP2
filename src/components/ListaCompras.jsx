@@ -9,6 +9,7 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
   const [editandoLista, setEditandoLista] = useState(false);
   const [nuevoNombreLista, setNuevoNombreLista] = useState(lista.nombre);
   const [nuevoColorLista, setNuevoColorLista] = useState(lista.color);
+  const [itemsComprados, setItemsComprados] = useState([]);
 
   const handleAgregarItem = () => {
     if (!nuevoItem.trim() || nuevaCantidad <= 0) return;
@@ -24,6 +25,7 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
   const handleEliminar = (index) => {
     const nuevosItems = lista.items.filter((_, i) => i !== index);
     actualizarItems(nuevosItems);
+    setItemsComprados(itemsComprados.filter(i => i !== index));
   };
 
   const comenzarEdicion = (index) => {
@@ -54,6 +56,14 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
     editarNombre(nuevoNombreLista);
     editarColor(nuevoColorLista);
     setEditandoLista(false);
+  };
+
+  const toggleItemComprado = (index) => {
+    setItemsComprados(prev => 
+      prev.includes(index) 
+        ? prev.filter(i => i !== index) 
+        : [...prev, index]
+    );
   };
 
   return (
@@ -121,7 +131,10 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
 
       <ul className="items-lista">
         {lista.items.map((item, index) => (
-          <li key={index}>
+          <li 
+            key={index} 
+            className={itemsComprados.includes(index) ? 'comprado' : ''}
+          >
             {editandoIndex === index ? (
               <div className="editar-item">
                 <input
@@ -150,7 +163,15 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
               </div>
             ) : (
               <>
-                <span>{item.nombre} (x{item.cantidad})</span>
+                <button
+                  className={`btn-check ${itemsComprados.includes(index) ? 'checked' : ''}`}
+                  onClick={() => toggleItemComprado(index)}
+                >
+                  {itemsComprados.includes(index) ? '✓' : ''}
+                </button>
+                <span className="item-text">
+                  {item.nombre} (x{item.cantidad})
+                </span>
                 <div className="item-actions">
                   <button 
                     className="btn-icon btn-edit"

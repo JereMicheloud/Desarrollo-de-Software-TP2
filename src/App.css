@@ -110,7 +110,7 @@ button {
 .btn-edit {
   background-color: var(--warning);
   color: var(--primary);
-}
+} 
 
 .btn-delete {
   background-color: var(--danger);
@@ -228,4 +228,47 @@ button {
   input[type="color"] {
     align-self: flex-start;
   }
+}
+.btn-check {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #4CAF50;
+  border-radius: 4px;
+  background: transparent;
+  margin-right: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.btn-check.checked {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.item-text {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.items-lista li.comprado .item-text {
+  text-decoration: line-through;
+  opacity: 0.7;
+  color: #666;
+}
+
+.items-lista li {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.item-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 5px;
 }

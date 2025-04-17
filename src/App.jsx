@@ -52,7 +52,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>🛒 Listas de Compras</h1>
+      <h1>🗒️Lista de Compras</h1>
 
       <div className="input-group">
         <input
@@ -78,8 +78,10 @@ function App() {
             key={index}
             className={`lista-tab ${listaSeleccionada === index ? 'active' : ''}`}
             style={{ 
-              backgroundColor: lista.color,
-              color: '#000000'
+              borderWidth: '3px',
+              outline: 'none',
+              borderColor: lista.color,
+              color: '#000000',
             }}
             onClick={() => setListaSeleccionada(index)}
           >
