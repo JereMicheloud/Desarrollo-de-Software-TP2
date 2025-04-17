@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import ListaCompras from './components/ListaCompras.jsx';
+import './App.css';
 
 function App() {
   const [listas, setListas] = useState([]);
   const [listaSeleccionada, setListaSeleccionada] = useState(null);
   const [nuevoNombreLista, setNuevoNombreLista] = useState('');
-  const [colorLista, setColorLista] = useState('#cccccc');
+  const [colorLista, setColorLista] = useState('#D4C098');
 
   const crearLista = () => {
     if (!nuevoNombreLista.trim()) return;
@@ -18,7 +19,7 @@ function App() {
     setListas(nuevasListas);
     setListaSeleccionada(nuevasListas.length - 1);
     setNuevoNombreLista('');
-    setColorLista('#cccccc');
+    setColorLista('#D4C098');
   };
 
   const actualizarItems = (indexLista, nuevosItems) => {
@@ -50,45 +51,46 @@ function App() {
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
+    <div className="app-container">
       <h1>🛒 Listas de Compras</h1>
 
-      {/* Crear nueva lista */}
-      <div style={{ marginBottom: '1rem' }}>
+      <div className="input-group">
         <input
           type="text"
           placeholder="Nombre de la lista"
           value={nuevoNombreLista}
           onChange={(e) => setNuevoNombreLista(e.target.value)}
+          style={{ color: '#000000' }}
         />
         <input
           type="color"
           value={colorLista}
           onChange={(e) => setColorLista(e.target.value)}
-          style={{ marginLeft: '0.5rem' }}
         />
-        <button onClick={crearLista}>Crear lista</button>
+        <button className="btn-primary" onClick={crearLista}>
+          Crear lista
+        </button>
       </div>
 
-      {/* Tabs de listas */}
-      <div style={{ marginBottom: '1rem' }}>
+      <div className="lista-tabs">
         {listas.map((lista, index) => (
           <button
             key={index}
-            onClick={() => setListaSeleccionada(index)}
-            style={{
+            className={`lista-tab ${listaSeleccionada === index ? 'active' : ''}`}
+            style={{ 
               backgroundColor: lista.color,
-              marginRight: '0.5rem',
-              fontWeight: listaSeleccionada === index ? 'bold' : 'normal'
+              color: '#000000'
             }}
+            onClick={() => setListaSeleccionada(index)}
           >
             {lista.nombre}
             <button
+              className="btn-icon"
               onClick={(e) => {
                 e.stopPropagation();
                 eliminarLista(index);
               }}
-              style={{ marginLeft: '0.5rem' }}
+              style={{ color: '#000000' }}
             >
               ❌
             </button>
@@ -96,19 +98,12 @@ function App() {
         ))}
       </div>
 
-      {/* Mostrar lista seleccionada */}
       {listaSeleccionada !== null && (
         <ListaCompras
           lista={listas[listaSeleccionada]}
-          actualizarItems={(items) =>
-            actualizarItems(listaSeleccionada, items)
-          }
-          editarNombre={(nuevoNombre) =>
-            editarNombreLista(listaSeleccionada, nuevoNombre)
-          }
-          editarColor={(nuevoColor) =>
-            editarColorLista(listaSeleccionada, nuevoColor)
-          }
+          actualizarItems={(items) => actualizarItems(listaSeleccionada, items)}
+          editarNombre={(nuevoNombre) => editarNombreLista(listaSeleccionada, nuevoNombre)}
+          editarColor={(nuevoColor) => editarColorLista(listaSeleccionada, nuevoColor)}
         />
       )}
     </div>

@@ -10,20 +10,19 @@ function ListaTabs({ listas, listaActiva, setListaActiva, setListas }) {
   };
 
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <div className="lista-tabs">
       {listas.map((lista, index) => (
         <button
           key={index}
-          style={{
-            marginRight: '0.5rem',
-            backgroundColor: index === listaActiva ? '#ddd' : '#f0f0f0'
-          }}
+          className={index === listaActiva ? 'active' : ''}
           onClick={() => setListaActiva(index)}
         >
           {lista.nombre}
-          <span onClick={(e) => { e.stopPropagation(); eliminarLista(index); }}> ❌</span>
+          <button onClick={(e) => { e.stopPropagation(); eliminarLista(index); }}> ❌</button>
         </button>
       ))}
     </div>
   );
 }
+
+export default ListaTabs;

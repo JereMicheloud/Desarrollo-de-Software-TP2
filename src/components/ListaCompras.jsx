@@ -3,11 +3,9 @@ import React, { useState } from 'react';
 function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
   const [nuevoItem, setNuevoItem] = useState('');
   const [nuevaCantidad, setNuevaCantidad] = useState(1);
-
   const [editandoIndex, setEditandoIndex] = useState(null);
   const [nuevoNombreEditado, setNuevoNombreEditado] = useState('');
   const [nuevaCantidadEditada, setNuevaCantidadEditada] = useState(1);
-
   const [editandoLista, setEditandoLista] = useState(false);
   const [nuevoNombreLista, setNuevoNombreLista] = useState(lista.nombre);
   const [nuevoColorLista, setNuevoColorLista] = useState(lista.color);
@@ -59,53 +57,73 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
   };
 
   return (
-    <div style={{ marginTop: '1rem' }}>
-      {/* Mostrar nombre y botón de editar */}
-      {!editandoLista ? (
-        <>
-          <h2 style={{ color: lista.color }}>{lista.nombre}</h2>
-          <button onClick={() => setEditandoLista(true)}>✏️ Editar lista</button>
-        </>
-      ) : (
-        <div style={{ marginBottom: '1rem' }}>
-          <input
-            type="text"
-            value={nuevoNombreLista}
-            onChange={(e) => setNuevoNombreLista(e.target.value)}
-          />
-          <input
-            type="color"
-            value={nuevoColorLista}
-            onChange={(e) => setNuevoColorLista(e.target.value)}
-            style={{ marginLeft: '0.5rem' }}
-          />
-          <button onClick={guardarEdicionLista}>💾 Guardar</button>
-          <button onClick={() => setEditandoLista(false)}>❌ Cancelar</button>
-        </div>
-      )}
+    <div className="lista-compras">
+      <div className="lista-header">
+        {!editandoLista ? (
+          <div className="lista-titulo">
+            <h2>{lista.nombre}</h2>
+            <button 
+              className="btn-icon btn-edit"
+              onClick={() => setEditandoLista(true)}
+            >
+              ✏️
+            </button>
+          </div>
+        ) : (
+          <div className="input-group">
+            <input
+              type="text"
+              value={nuevoNombreLista}
+              onChange={(e) => setNuevoNombreLista(e.target.value)}
+              placeholder="Nuevo nombre"
+            />
+            <input
+              type="color"
+              value={nuevoColorLista}
+              onChange={(e) => setNuevoColorLista(e.target.value)}
+            />
+            <button 
+              className="btn-icon btn-success"
+              onClick={guardarEdicionLista}
+            >
+              💾
+            </button>
+            <button 
+              className="btn-icon btn-delete"
+              onClick={() => setEditandoLista(false)}
+            >
+              ❌
+            </button>
+          </div>
+        )}
+      </div>
 
-      {/* Agregar item */}
-      <input
-        type="text"
-        placeholder="Producto"
-        value={nuevoItem}
-        onChange={(e) => setNuevoItem(e.target.value)}
-      />
-      <input
-        type="number"
-        min="1"
-        value={nuevaCantidad}
-        onChange={(e) => setNuevaCantidad(parseInt(e.target.value))}
-        style={{ width: '60px', marginLeft: '0.5rem' }}
-      />
-      <button onClick={handleAgregarItem}>Agregar</button>
+      <div className="input-group">
+        <input
+          type="text"
+          placeholder="Producto"
+          value={nuevoItem}
+          onChange={(e) => setNuevoItem(e.target.value)}
+        />
+        <input
+          type="number"
+          min="1"
+          value={nuevaCantidad}
+          onChange={(e) => setNuevaCantidad(parseInt(e.target.value))}
+        />
+        <button 
+          className="btn-primary"
+          onClick={handleAgregarItem}
+        >
+          Agregar
+        </button>
+      </div>
 
-      {/* Lista de items */}
-      <ul style={{ marginTop: '1rem' }}>
+      <ul className="items-lista">
         {lista.items.map((item, index) => (
           <li key={index}>
             {editandoIndex === index ? (
-              <>
+              <div className="editar-item">
                 <input
                   type="text"
                   value={nuevoNombreEditado}
@@ -115,19 +133,38 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
                   type="number"
                   min="1"
                   value={nuevaCantidadEditada}
-                  onChange={(e) =>
-                    setNuevaCantidadEditada(parseInt(e.target.value))
-                  }
-                  style={{ width: '60px', marginLeft: '0.5rem' }}
+                  onChange={(e) => setNuevaCantidadEditada(parseInt(e.target.value))}
                 />
-                <button onClick={() => guardarEdicion(index)}>💾</button>
-                <button onClick={cancelarEdicion}>❌</button>
-              </>
+                <button 
+                  className="btn-icon btn-success"
+                  onClick={() => guardarEdicion(index)}
+                >
+                  💾
+                </button>
+                <button 
+                  className="btn-icon btn-delete"
+                  onClick={cancelarEdicion}
+                >
+                  ❌
+                </button>
+              </div>
             ) : (
               <>
-                {item.nombre} (x{item.cantidad})
-                <button onClick={() => comenzarEdicion(index)}>✏️</button>
-                <button onClick={() => handleEliminar(index)}>🗑️</button>
+                <span>{item.nombre} (x{item.cantidad})</span>
+                <div className="item-actions">
+                  <button 
+                    className="btn-icon btn-edit"
+                    onClick={() => comenzarEdicion(index)}
+                  >
+                    ✏️
+                  </button>
+                  <button 
+                    className="btn-icon btn-delete"
+                    onClick={() => handleEliminar(index)}
+                  >
+                    🗑️
+                  </button>
+                </div>
               </>
             )}
           </li>
