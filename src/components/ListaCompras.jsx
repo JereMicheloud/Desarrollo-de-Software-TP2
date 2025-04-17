@@ -59,9 +59,9 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
   };
 
   const toggleItemComprado = (index) => {
-    setItemsComprados(prev => 
-      prev.includes(index) 
-        ? prev.filter(i => i !== index) 
+    setItemsComprados(prev =>
+      prev.includes(index)
+        ? prev.filter(i => i !== index)
         : [...prev, index]
     );
   };
@@ -72,7 +72,7 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
         {!editandoLista ? (
           <div className="lista-titulo">
             <h2>{lista.nombre}</h2>
-            <button 
+            <button
               className="btn-icon btn-edit"
               onClick={() => setEditandoLista(true)}
             >
@@ -92,13 +92,13 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
               value={nuevoColorLista}
               onChange={(e) => setNuevoColorLista(e.target.value)}
             />
-            <button 
+            <button
               className="btn-icon btn-success"
               onClick={guardarEdicionLista}
             >
               💾
             </button>
-            <button 
+            <button
               className="btn-icon btn-delete"
               onClick={() => setEditandoLista(false)}
             >
@@ -114,14 +114,20 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
           placeholder="Producto"
           value={nuevoItem}
           onChange={(e) => setNuevoItem(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleAgregarItem();
+          }}
         />
         <input
           type="number"
           min="1"
           value={nuevaCantidad}
           onChange={(e) => setNuevaCantidad(parseInt(e.target.value))}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleAgregarItem();
+          }}
         />
-        <button 
+        <button
           className="btn-primary"
           onClick={handleAgregarItem}
         >
@@ -131,8 +137,8 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
 
       <ul className="items-lista">
         {lista.items.map((item, index) => (
-          <li 
-            key={index} 
+          <li
+            key={index}
             className={itemsComprados.includes(index) ? 'comprado' : ''}
           >
             {editandoIndex === index ? (
@@ -141,20 +147,26 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
                   type="text"
                   value={nuevoNombreEditado}
                   onChange={(e) => setNuevoNombreEditado(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') guardarEdicion(index);
+                  }}
                 />
                 <input
                   type="number"
                   min="1"
                   value={nuevaCantidadEditada}
                   onChange={(e) => setNuevaCantidadEditada(parseInt(e.target.value))}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') guardarEdicion(index);
+                  }}
                 />
-                <button 
+                <button
                   className="btn-icon btn-success"
                   onClick={() => guardarEdicion(index)}
                 >
                   💾
                 </button>
-                <button 
+                <button
                   className="btn-icon btn-delete"
                   onClick={cancelarEdicion}
                 >
@@ -173,13 +185,13 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
                   {item.nombre} (x{item.cantidad})
                 </span>
                 <div className="item-actions">
-                  <button 
+                  <button
                     className="btn-icon btn-edit"
                     onClick={() => comenzarEdicion(index)}
                   >
                     ✏️
                   </button>
-                  <button 
+                  <button
                     className="btn-icon btn-delete"
                     onClick={() => handleEliminar(index)}
                   >

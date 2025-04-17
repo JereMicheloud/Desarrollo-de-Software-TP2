@@ -60,6 +60,9 @@ function App() {
           placeholder="Nombre de la lista"
           value={nuevoNombreLista}
           onChange={(e) => setNuevoNombreLista(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') crearLista();
+          }}
           style={{ color: '#000000' }}
         />
         <input
@@ -77,7 +80,7 @@ function App() {
           <button
             key={index}
             className={`lista-tab ${listaSeleccionada === index ? 'active' : ''}`}
-            style={{ 
+            style={{
               borderWidth: '3px',
               outline: 'none',
               borderColor: lista.color,
