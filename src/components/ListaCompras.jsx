@@ -67,7 +67,7 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
   };
 
   return (
-    <div className="lista-compras">
+    <div className="lista-compras" style={{ borderColor: lista.color }}>
       <div className="lista-header">
         {!editandoLista ? (
           <div className="lista-titulo">
@@ -86,11 +86,17 @@ function ListaCompras({ lista, actualizarItems, editarNombre, editarColor }) {
               value={nuevoNombreLista}
               onChange={(e) => setNuevoNombreLista(e.target.value)}
               placeholder="Nuevo nombre"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') guardarEdicionLista();
+              }}
             />
             <input
               type="color"
               value={nuevoColorLista}
               onChange={(e) => setNuevoColorLista(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') guardarEdicionLista();
+              }}
             />
             <button
               className="btn-icon btn-success"
